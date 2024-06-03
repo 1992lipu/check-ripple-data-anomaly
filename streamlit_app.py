@@ -1,16 +1,6 @@
 import streamlit as st
 import pandas as pd
 from io import BytesIO
-import subprocess
-import sys
-
-def install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-try:
-    import openpyxl
-except ImportError:
-    install("openpyxl")
 
 def load_data(file):
     return pd.read_excel(file, sheet_name='Meter Readings - ELECTRICITY')
