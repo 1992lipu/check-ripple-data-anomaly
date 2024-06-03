@@ -29,7 +29,21 @@ def identify_anomalies(data):
     anomalies = pd.concat([eb_anomalies, dg_anomalies]).drop_duplicates().sort_values(by='Datetime')
     return anomalies
 
-st.title("Meter Reading Anomaly Detection")
+def generate_summary(anomalies):
+    summary = "The following anomalies were identified in the meter readings:\n"
+    for i, row in anomalies.iterrows():
+        summary += f"\n{len(summary.splitlines())}. **{row['Datetime'].strftime('%d-%b-%Y %H:%M:%S')}**:\n"
+        if row['EB_Khw_Diff'] < 0:
+            summary += f"   - Negative change in `Meter Reading EB Khw` ({row['EB_Khw_Diff']} kWh).\n"
+        elif row['EB_Khw_Diff'] > anomalies['EB_Khw_Diff'].mean() + 3 * anomalies['EB_Khw_Diff'].std():
+            summary += f"   - Unusually high increase in `Meter Reading EB Khw` ({row['EB_Khw_Diff']} kWh).\n"
+        if row['DG_Khw_Diff'] < 0:
+            summary += f"   - Negative change in `Meter Reading DG Khw` ({row['DG_Khw_Diff']} kWh).\n"
+        elif row['DG_Khw_Diff'] > anomalies['DG_Khw_Diff'].mean() + 3 * anomalies['DG_Khw_Diff'].std():
+            summary += f"   - Unusually high increase in `Meter Reading DG Khw` ({row['DG_Khw_Diff']} kWh).\n"
+    return summary
+
+st.title("Meter Reading Anomaly Detection - Created by Debaprasad")
 
 uploaded_file = st.file_uploader("Upload your Excel file", type=["xlsx"])
 
@@ -41,5 +55,8 @@ if uploaded_file is not None:
     data = calculate_differences(data)
     anomalies = identify_anomalies(data)
     
-    st.write("Anomalies detected:")
-    st.write(anomalies)
+    if not anomalies.empty:
+        summary = generate_summary(anomalies)
+        st.write(summary)
+    else:
+        st.write("No anomalies detected.")
