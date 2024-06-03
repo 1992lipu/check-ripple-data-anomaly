@@ -1,6 +1,16 @@
 import streamlit as st
 import pandas as pd
 from io import BytesIO
+import subprocess
+import sys
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+try:
+    import openpyxl
+except ImportError:
+    install("openpyxl")
 
 def load_data(file):
     return pd.read_excel(file, sheet_name='Meter Readings - ELECTRICITY')
@@ -30,8 +40,6 @@ def identify_anomalies(data):
     return anomalies
 
 st.title("Meter Reading Anomaly Detection")
-
-st.title("Got Questions ? Reach out to Debaprasad !")
 
 uploaded_file = st.file_uploader("Upload your Excel file", type=["xlsx"])
 
