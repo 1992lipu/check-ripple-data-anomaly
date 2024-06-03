@@ -49,10 +49,13 @@ def generate_summary(anomalies, eb_mean, eb_std, dg_mean, dg_std):
         
         summary += entry
     return summary
-
-st.title("Meter Reading Anomaly Detection")
-st.write("If you need help in using this application, Reach out to Debaprasad (A1104) ")
+    
 st.markdown("***")
+st.markdown("***")
+st.title("Meter Reading Anomaly Detection")
+st.markdown("***")
+st.markdown("***")
+st.write("If you need help in using this application, Reach out to Debaprasad (A1104) ")
 st.markdown("***")
 st.markdown("***")
 
