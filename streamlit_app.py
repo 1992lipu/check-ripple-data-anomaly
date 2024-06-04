@@ -49,16 +49,16 @@ def generate_summary(anomalies, eb_mean, eb_std, dg_mean, dg_std):
         
         summary += entry
     return summary
-    
+
 st.title("Meter Reading Anomaly Detection")
-st.markdown("***")
-st.write("If you need help in using this application, Reach out to Debaprasad ")
-st.markdown("***")
 
 uploaded_file = st.file_uploader("Upload your Excel file", type=["xlsx"])
 
 if uploaded_file is not None:
     data = load_data(BytesIO(uploaded_file.read()))
+    
+    # Filter out rows where Meter Reading EB Khw is 0
+    data = data[data['Meter Reading EB Khw'] != 0]
     
     data = clean_data(data)
     data = convert_to_datetime(data)
