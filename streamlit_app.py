@@ -51,6 +51,9 @@ def generate_summary(anomalies, eb_mean, eb_std, dg_mean, dg_std):
     return summary
 
 st.title("Meter Reading Anomaly Detection")
+st.markdown("***")
+st.write("If you need help in using this application, Reach out to Debaprasad ")
+st.markdown("***")
 
 uploaded_file = st.file_uploader("Upload your Excel file", type=["xlsx"])
 
