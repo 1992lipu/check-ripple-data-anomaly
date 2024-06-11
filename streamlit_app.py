@@ -62,6 +62,7 @@ if uploaded_file is not None:
     
     # Filter out rows where Meter Reading EB Khw is 0
     data = data[data['Meter Reading EB Khw'] != 0]
+    data = data[data['Date'] != ""]
     
     data = clean_data(data)
     data = convert_to_datetime(data)
