@@ -9,7 +9,10 @@ def clean_data(data):
     return data.drop_duplicates()
 
 def convert_to_datetime(data):
-    data['Datetime'] = pd.to_datetime(data['Date'] + ' ' + data['Time'], format='%d-%b-%Y %I:%M:%S %p')
+    try:
+        data['Datetime'] = pd.to_datetime(data['Date'] + ' ' + data['Time'], format='%d-%b-%Y %I:%M:%S %p', errors='coerce')
+    except Exception as e:
+        st.error(f"Error converting to datetime: {e}")
     return data
 
 def calculate_differences(data):
